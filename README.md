@@ -1,5 +1,4 @@
-[![CircleCI](https://circleci.com/gh/nghia-hoang/project5.svg?style=svg)](https://circleci.com/gh/nghia-hoang/project5)
-
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/nghia-hoang/project5/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/nghia-hoang/project5/tree/main)
 ## Project Overview
 
 This capstone project showcases the use of several CI/CD tools and cloud services covered in the program Udacity - AWS Cloud DevOps Engineer.

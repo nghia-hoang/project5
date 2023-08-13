@@ -37,20 +37,6 @@ jobs:
       - run:
           command: eksctl create cluster --name nghiahv1-cluster --node-type t3.small --nodes 2
 
-  # build-and-push-image:
-  #   docker:
-  #     image: docker:17.05.0-ce-git
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker
-  #     - login:
-  #         username: your_docker_id
-  #         password: your_docker_password
-  #     - run:
-  #         command: docker build -t my-image:latest .
-  #     - push:
-  #         image: my-image:latest
-
   deploy-app:
     depends_on: create-eks-cluster
     docker:
@@ -78,34 +64,13 @@ jobs:
       - checkout
       - run:
           command: kubectl create service loadbalancer --tcp=80:80 --target-port=80 nghiahv1-service
-# workflows:
-#   default:
-#     jobs:
-#       - build
-#       - create-eks-cluster:
-#           requires: [build]
-#       - test-backend:
-#           requires: [build-backend]
-#       - scan-backend:
-#           requires: [build-backend]
-#       - scan-frontend:
-#           requires: [build-frontend]
-#       - deploy-infrastructure:
-#           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-#           filters:
-#             branches:
-#               only: [main]
-#       - configure-infrastructure:
-#           requires: [deploy-infrastructure]
-#       - run-migrations:
-#           requires: [configure-infrastructure]
-#       - deploy-frontend:
-#           requires: [run-migrations]
-#       - deploy-backend:
-#           requires: [run-migrations]
-#       - smoke-test:
-#           requires: [deploy-backend, deploy-frontend]
-#       - cloudfront-update:
-#           requires: [smoke-test]
-#       - cleanup:
-#           requires: [cloudfront-update]
+workflows:
+  default:
+    jobs:
+      - build
+      - create-eks-cluster:
+          requires: [build]
+      - deploy-app:
+          requires: [create-eks-cluster]
+      - create-load-balancer:
+          requires: [deploy-app]
