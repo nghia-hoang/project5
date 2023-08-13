@@ -70,8 +70,8 @@ workflows:
   default:
     jobs:
       - build-check
-      - my-eks-cluster:
-          requires: [build-check]
+      # - my-eks-cluster:
+      #     requires: [build-check]
       # - deploy-app:
       #     requires: [my-eks-cluster]
       # - create-my-load-balancer:
