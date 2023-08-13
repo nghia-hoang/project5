@@ -30,7 +30,6 @@ jobs:
             make lint
 
   create-eks-cluster:
-    depends_on: build
     docker:
       image: amazon/eks-cli:latest
     working_directory: ~/repo
@@ -40,7 +39,6 @@ jobs:
           command: eksctl create cluster --name nghiahv1-cluster --node-type t3.small --nodes 2
 
   deploy-app:
-    depends_on: create-eks-cluster
     docker:
       image: docker:17.05.0-ce-git
     working_directory: ~/repo
@@ -60,7 +58,6 @@ jobs:
           command: kubectl rollout status deployment/nghiahv1-deployment
 
   create-load-balancer:
-    depends_on: deploy-app
     docker:
       image: amazon/eks-cli:latest
     working_directory: ~/repo
