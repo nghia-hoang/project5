@@ -30,16 +30,16 @@ jobs:
             . venv/bin/activate
             make lint
 
-  my-eks-cluster:
-    docker:
-      image: 'amazon/eks-cli:latest'
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run:
-        name: create cluster
-        command: |
-          eksctl create cluster --name nghiahv1-cluster --node-type t3.small --nodes 2
+  create-cluster:
+      docker:
+        - image: amazon/eks-cli:latest
+      steps:
+        - checkout:
+            path: .
+        - run:
+            name: Create cluster
+            command: |
+              eksctl create cluster --name nghiahv1-cluster --node-type t3.small --nodes 2
 
   # deploy-app:
   #   docker:
@@ -72,8 +72,8 @@ workflows:
   default:
     jobs:
       - build-check
-      # - my-eks-cluster:
-      #     requires: [build-check]
+      - create-cluster:
+          requires: [build-check]
       # - deploy-app:
       #     requires: [my-eks-cluster]
       # - create-my-load-balancer:
