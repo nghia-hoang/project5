@@ -75,4 +75,4 @@ workflows:
       - deploy-app:
           requires: [my-eks-cluster]
       - create-my-load-balancer:
-          requires: [deploy-app]
+          docker: [amazon/eks-cli:latest, my-custom-image:latest]
