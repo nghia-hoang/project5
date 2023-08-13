@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-deployment
+  name: nghiahv1-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: my-app
+      app: nghiahv1-app
   template:
     metadata:
       labels:
-        app: my-app
+        app: nghiahv1-app
     spec:
       containers:
-      - name: my-container
+      - name: nghiahv1-container
         image: nghiahv1/project5:latest
         ports:
         - containerPort: 80

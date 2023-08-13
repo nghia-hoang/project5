@@ -68,7 +68,7 @@ jobs:
       - run:
           command: kubectl apply -f deployment.yaml
       - run:
-          command: kubectl rollout status deployment/my-deployment
+          command: kubectl rollout status deployment/nghiahv1-deployment
 
   create-load-balancer:
     depends_on: deploy-app
@@ -77,7 +77,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: kubectl create service loadbalancer --tcp=80:80 --target-port=80 my-service
+          command: kubectl create service loadbalancer --tcp=80:80 --target-port=80 nghiahv1-service
 # workflows:
 #   default:
 #     jobs:
