@@ -30,42 +30,42 @@ jobs:
             . venv/bin/activate
             make lint
 
-  my-eks-cluster:
-    docker:
-      image: 'amazon/eks-cli:latest'
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run:
-          command: eksctl create cluster --name nghiahv1-cluster --node-type t3.small --nodes 2
+  # my-eks-cluster:
+  #   docker:
+  #     image: 'amazon/eks-cli:latest'
+  #   working_directory: ~/repo
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         command: eksctl create cluster --name nghiahv1-cluster --node-type t3.small --nodes 2
 
-  deploy-app:
-    docker:
-      image: 'docker:17.05.0-ce-git'
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - setup_remote_docker
-      - login:
-          username: $DOCKER_ID
-          password: $DOCKER_PASSWORD
-      - run:
-          command: docker build -t nghiahv1/project5:latest .
-      - push:
-          image: nghiahv1/project5:latest
-      - run:
-          command: kubectl apply -f deployment.yaml
-      - run:
-          command: kubectl rollout status deployment/nghiahv1-deployment
+  # deploy-app:
+  #   docker:
+  #     image: 'docker:17.05.0-ce-git'
+  #   working_directory: ~/repo
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - login:
+  #         username: $DOCKER_ID
+  #         password: $DOCKER_PASSWORD
+  #     - run:
+  #         command: docker build -t nghiahv1/project5:latest .
+  #     - push:
+  #         image: nghiahv1/project5:latest
+  #     - run:
+  #         command: kubectl apply -f deployment.yaml
+  #     - run:
+  #         command: kubectl rollout status deployment/nghiahv1-deployment
 
-  create-my-load-balancer:
-    docker:
-      image: 'amazon/eks-cli:latest'
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run:
-          command: kubectl create service loadbalancer --tcp=80:80 --target-port=80 nghiahv1-service
+  # create-my-load-balancer:
+  #   docker:
+  #     image: 'amazon/eks-cli:latest'
+  #   working_directory: ~/repo
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         command: kubectl create service loadbalancer --tcp=80:80 --target-port=80 nghiahv1-service
 workflows:
   default:
     jobs:
