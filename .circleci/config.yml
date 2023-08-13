@@ -32,7 +32,7 @@ jobs:
 
   create-cluster:
       docker:
-        - image: amazon/eks-cli:latest
+        - image: circleci/aws-eks@1.0.0
       steps:
         - checkout:
             path: .
