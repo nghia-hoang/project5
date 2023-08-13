@@ -29,7 +29,7 @@ jobs:
             . venv/bin/activate
             make lint
 
-  create-eks-cluster:
+  my-eks-cluster:
     docker:
       image: amazon/eks-cli:latest
     working_directory: ~/repo
@@ -57,7 +57,7 @@ jobs:
       - run:
           command: kubectl rollout status deployment/nghiahv1-deployment
 
-  create-load-balancer:
+  create-my-load-balancer:
     docker:
       image: amazon/eks-cli:latest
     working_directory: ~/repo
@@ -72,6 +72,6 @@ workflows:
       - create-eks-cluster:
           requires: [build-check]
       - deploy-app:
-          requires: [create-eks-cluster]
-      - create-load-balancer:
+          requires: [my-eks-cluster]
+      - create-my-load-balancer:
           requires: [deploy-app]
