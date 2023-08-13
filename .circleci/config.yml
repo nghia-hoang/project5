@@ -72,7 +72,7 @@ workflows:
       - build-check
       - create-eks-cluster:
           requires: [build-check]
-      - deploy-app:
-          requires: [my-eks-cluster]
-      - create-my-load-balancer:
-          docker: [amazon/eks-cli:latest, my-custom-image:latest]
+      # - deploy-app:
+      #     requires: [my-eks-cluster]
+      # - create-my-load-balancer:
+      #     docker: [amazon/eks-cli:latest, my-custom-image:latest]
