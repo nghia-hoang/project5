@@ -70,7 +70,7 @@ workflows:
   default:
     jobs:
       - build-check
-      - create-eks-cluster:
+      - my-eks-cluster:
           requires: [build-check]
       # - deploy-app:
       #     requires: [my-eks-cluster]
