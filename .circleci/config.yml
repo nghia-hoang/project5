@@ -1,0 +1,111 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: 'python:3.7.3-stretch'
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - 'v1-dependencies-{{ checksum "requirements.txt" }}'
+            - v1-dependencies-
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            make install
+            # Install hadolint
+            wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
+            chmod +x /bin/hadolint
+      - save_cache:
+          paths:
+            - ./venv
+          key: 'v1-dependencies-{{ checksum "requirements.txt" }}'
+      - run:
+          name: run lint
+          command: |
+            . venv/bin/activate
+            make lint
+  create-eks-cluster:
+    depends_on: build
+    docker:
+      image: amazon/eks-cli:latest
+    steps:
+      - checkout
+      - run:
+          command: eksctl create cluster --name nghiahv1-cluster --node-type t3.small --nodes 2
+
+  # build-and-push-image:
+  #   docker:
+  #     image: docker:17.05.0-ce-git
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - login:
+  #         username: your_docker_id
+  #         password: your_docker_password
+  #     - run:
+  #         command: docker build -t my-image:latest .
+  #     - push:
+  #         image: my-image:latest
+
+  deploy-app:
+    depends_on: create-eks-cluster
+    docker:
+      image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - login:
+          username: $DOCKER_ID
+          password: $DOCKER_PASSWORD
+      - run:
+          command: docker build -t nghiahv1/project5:latest .
+      - push:
+          image: nghiahv1/project5:latest
+      - run:
+          command: kubectl apply -f deployment.yaml
+      - run:
+          command: kubectl rollout status deployment/my-deployment
+
+  create-load-balancer:
+    depends_on: deploy-app
+    docker:
+      image: amazon/eks-cli:latest
+    steps:
+      - checkout
+      - run:
+          command: kubectl create service loadbalancer --tcp=80:80 --target-port=80 my-service
+# workflows:
+#   default:
+#     jobs:
+#       - build
+#       - create-eks-cluster:
+#           requires: [build]
+#       - test-backend:
+#           requires: [build-backend]
+#       - scan-backend:
+#           requires: [build-backend]
+#       - scan-frontend:
+#           requires: [build-frontend]
+#       - deploy-infrastructure:
+#           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+#           filters:
+#             branches:
+#               only: [main]
+#       - configure-infrastructure:
+#           requires: [deploy-infrastructure]
+#       - run-migrations:
+#           requires: [configure-infrastructure]
+#       - deploy-frontend:
+#           requires: [run-migrations]
+#       - deploy-backend:
+#           requires: [run-migrations]
+#       - smoke-test:
+#           requires: [deploy-backend, deploy-frontend]
+#       - cloudfront-update:
+#           requires: [smoke-test]
+#       - cleanup:
+#           requires: [cloudfront-update]
