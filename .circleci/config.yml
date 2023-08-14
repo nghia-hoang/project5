@@ -2,9 +2,9 @@ version: 2.1
 orbs:
     aws-cli: circleci/aws-cli@2.2.0
     helm: circleci/helm@2.0.1
-    kubernetes: circleci/kubernetes@1.2.0
-    # aws-eks: circleci/aws-eks@2.2.0
-    # kubernetes: circleci/kubernetes@1.3
+    # kubernetes: circleci/kubernetes@1.2.0
+    aws-eks: circleci/aws-eks@2.2.0
+    kubernetes: circleci/kubernetes@1.3
 
 jobs:
   build-check:
