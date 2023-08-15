@@ -116,7 +116,7 @@ workflows:
   deployment:
     jobs:
       - build-check
-      - create-eks-cluster
+      - create-eks-cluster:
           requires:
             - build-check
       - test-cluster:
