@@ -74,10 +74,10 @@ jobs:
             node-type: t3.micro
             nodes: 2
             # with-load-balancer: true
-        - run:
-            command: |
-                kubectl get services
-            name: Test cluster
+        # - run:
+        #     command: |
+        #         kubectl get services
+        #     name: Test cluster
   test-cluster:
     docker:
       - image: cimg/python:3.10
@@ -115,20 +115,20 @@ jobs:
 workflows:
   deployment:
     jobs:
-      # - build-check
-      # - create-eks-cluster:
-      #     requires:
-      #       - build-check
-      # - test-cluster:
-      #     cluster-name: nghia-deployment
-      #     requires:
-      #       - create-eks-cluster
-      # - create-deployment:
-      #     cluster-name: nghia-deployment
-      #     requires:
-      #       - test-cluster
-      - aws-eks/delete-cluster:
+      - build-check
+      - create-eks-cluster:
+          requires:
+            - build-check
+      - test-cluster:
           cluster-name: nghia-deployment
+          requires:
+            - create-eks-cluster
+      - create-deployment:
+          cluster-name: nghia-deployment
+          requires:
+            - test-cluster
+      # - aws-eks/delete-cluster:
+      #     cluster-name: nghia-deployment
           # requires:
           #   - test-cluster
 
