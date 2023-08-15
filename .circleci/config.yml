@@ -129,6 +129,7 @@ workflows:
       #       - test-cluster
       - aws-eks/delete-cluster:
           cluster-name: nghia-deployment
+          
           # requires:
           #   - test-cluster
 
