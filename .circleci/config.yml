@@ -35,6 +35,21 @@ orbs:
   aws-eks: circleci/aws-eks@2.2.0
   kubernetes: circleci/kubernetes@1.3
 jobs:
+  create-eks-cluster:
+    docker:
+        - image: cimg/python:3.10
+    steps:
+        - kubernetes/install:
+            kubectl-version: v1.22.0
+        - aws-eks/create-cluster:
+            cluster-name: nghia-deployment
+            node-type: t3.micro
+            nodes: 2
+            # with-load-balancer: true
+        - run:
+            command: |
+                kubectl get services
+            name: Test cluster
   test-cluster:
     docker:
       - image: cimg/python:3.10
@@ -52,19 +67,39 @@ jobs:
           command: |
             kubectl get services
           name: Test cluster
+  create-deployment:
+    docker:
+        - image: cimg/python:3.10
+    parameters:
+        cluster-name:
+            description: |
+                Name of the EKS cluster
+            type: string
+    steps:
+      - checkout
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+      - kubernetes/create-or-update-resource:
+          get-rollout-status: true
+          resource-file-path: /deployment.yaml
+          resource-name: deployment/nghia-deployment
 workflows:
   deployment:
     jobs:
-      - aws-eks/create-cluster:
-          cluster-name: my-eks-demo
+      - create-eks-cluster
       - test-cluster:
-          cluster-name: my-eks-demo
+          cluster-name: nghia-deployment
           requires:
-            - aws-eks/create-cluster
-      - aws-eks/delete-cluster:
-          cluster-name: my-eks-demo
+            - create-eks-cluster
+      - create-deployment:
+          cluster-name: nghia-deployment
           requires:
             - test-cluster
+      # - aws-eks/delete-cluster:
+      #     cluster-name: nghia-deployment
+      #     requires:
+      #       - test-cluster
 
   # create-cluster:
   #     docker:
