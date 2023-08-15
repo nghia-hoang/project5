@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: nghiahv1-container
-        image: nghiahv1/project5:latest
+        image: nghiahv1/project4:latest
         ports:
         - containerPort: 80
