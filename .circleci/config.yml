@@ -74,8 +74,13 @@ jobs:
         - aws-eks/create-cluster:
             cluster-name: nghia-deployment
             node-type: t3.micro
-            nodes: 1
-            # with-load-balancer: true
+            nodes: 2
+        - aws-eks/create-load-balancer:
+          cluster-name: nghia-deployment
+          service-name: my-service
+          port: 80
+          target-port: 80
+             # with-load-balancer: true
         # - run:
         #     command: |
         #         kubectl get services
@@ -130,12 +135,12 @@ workflows:
       #     cluster-name: nghia-deployment
       #     requires:
       #       - create-eks-cluster
-      - create-deployment:
-          cluster-name: nghia-deployment
+      # - create-deployment:
+      #     cluster-name: nghia-deployment
           # requires:
           #   - test-cluster
-      # - aws-eks/delete-cluster:
-      #     cluster-name: nghia-deployment
+      - aws-eks/delete-cluster:
+          cluster-name: nghia-deployment
           # requires:
           #   - test-cluster
 
