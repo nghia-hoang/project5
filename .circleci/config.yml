@@ -121,17 +121,13 @@ jobs:
           service-name: my-service
           port: 80
           target-port: 8000
-      - kubectl expose:
-          service: my-service
-          port: 80
-          target-port: 8000
-          type: LoadBalancer
       - kubernetes/create-or-update-resource:
           # get-rollout-status: true
           resource-file-path: ~/repo/deployment.yaml
           resource-name: nghia-deployment
       - run:
           command: |
+            kubectl expose deployment nghia-deployment --type=LoadBalancer --port=80
             kubectl get services
           name: Test 
 workflows:
