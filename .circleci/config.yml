@@ -98,6 +98,16 @@ jobs:
           kubectl-version: v1.22.0
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: << parameters.cluster-name >>
+      - aws-eks/create-service:
+          cluster-name: << parameters.cluster-name >>
+          service-name: my-service
+          port: 80
+          target-port: 80
+      - kubectl expose:
+          service: my-service
+          port: 80
+          target-port: 8000
+          type: LoadBalancer
       - run:
           command: |
             kubectl get services
@@ -127,20 +137,20 @@ jobs:
 workflows:
   deployment:
     jobs:
-      # - build-check
-      # - create-eks-cluster:
-      #     requires:
-      #       - build-check
-      # - test-cluster:
-      #     cluster-name: nghia-deployment
-      #     requires:
-      #       - create-eks-cluster
-      # - create-deployment:
-      #     cluster-name: nghia-deployment
-          # requires:
-          #   - test-cluster
-      - aws-eks/delete-cluster:
+      - build-check
+      - create-eks-cluster:
+          requires:
+            - build-check
+      - test-cluster:
           cluster-name: nghia-deployment
+          requires:
+            - create-eks-cluster
+      - create-deployment:
+          cluster-name: nghia-deployment
+          requires:
+            - test-cluster
+      # - aws-eks/delete-cluster:
+      #     cluster-name: nghia-deployment
           # requires:
           #   - test-cluster
 
