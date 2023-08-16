@@ -117,7 +117,7 @@ jobs:
           resource-name: nghia-deployment
       - run:
           command: |
-            ls
+            kubectl get service nghia-deployment
           name: Test 
 workflows:
   deployment:
