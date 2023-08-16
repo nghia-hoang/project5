@@ -61,6 +61,8 @@ jobs:
       - run:
           name: run lint
           command: |
+            pwd
+            ls
             . venv/bin/activate
             make lint
   create-eks-cluster:
@@ -112,10 +114,14 @@ jobs:
           get-rollout-status: true
           resource-file-path: /deployment.yaml
           resource-name: deployment/nghia-deployment
+      - run:
+          command: |
+            ls
+          name: Test 
 workflows:
   deployment:
     jobs:
-      # - build-check
+      - build-check
       # - create-eks-cluster:
       #     requires:
       #       - build-check
@@ -127,9 +133,8 @@ workflows:
       #     cluster-name: nghia-deployment
       #     requires:
       #       - test-cluster
-      - aws-eks/delete-cluster:
-          cluster-name: nghia-deployment
-          
+      # - aws-eks/delete-cluster:
+      #     cluster-name: nghia-deployment
           # requires:
           #   - test-cluster
 
