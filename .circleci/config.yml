@@ -76,7 +76,7 @@ jobs:
             node-type: t3.micro
             nodes: 2
         - aws-eks/create-service:
-          cluster-name: << parameters.cluster-name >>
+          cluster-name: nghia-deployment
           service-name: my-service
           port: 80
           target-port: 80
