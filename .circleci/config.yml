@@ -80,7 +80,7 @@ jobs:
         #   service-name: my-service
         #   port: 80
         #   target-port: 80
-             with-load-balancer: true
+            #  with-loadcer: true
         # - run:
         #     command: |
         #         kubectl get services
