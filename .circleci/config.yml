@@ -129,7 +129,7 @@ jobs:
           command: |
             # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
             kubectl get deployment
-            kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
+            # kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
             kubectl get services
           name: Test 
 workflows:
