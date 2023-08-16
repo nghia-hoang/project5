@@ -114,7 +114,7 @@ jobs:
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: ~/repo/deployment.yaml
-          resource-name: deployment/nghia-deployment
+          resource-name: nghia-deployment
       - run:
           command: |
             ls
