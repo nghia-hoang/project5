@@ -135,18 +135,18 @@ jobs:
 workflows:
   deployment:
     jobs:
-      - build-check
-      - create-eks-cluster:
-          requires:
-            - build-check
-      - test-cluster:
-          cluster-name: nghia-deployment
-          requires:
-            - create-eks-cluster
+      # - build-check
+      # - create-eks-cluster:
+      #     requires:
+      #       - build-check
+      # - test-cluster:
+      #     cluster-name: nghia-deployment
+      #     requires:
+      #       - create-eks-cluster
       - create-deployment:
           cluster-name: nghia-deployment
-          requires:
-            - test-cluster
+          # requires:
+          #   - test-cluster
       # - aws-eks/delete-cluster:
       #     cluster-name: nghia-deployment
           # requires:
