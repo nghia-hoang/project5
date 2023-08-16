@@ -79,12 +79,12 @@ jobs:
           cluster-name: nghia-deployment
           service-name: my-service
           port: 80
-          target-port: 80
-      - kubectl expose:
-          service: my-service
-          port: 80
           target-port: 8000
-          type: LoadBalancer
+      # - kubectl expose:
+      #     service: my-service
+      #     port: 80
+      #     target-port: 8000
+      #     type: LoadBalancer
         # - aws-eks/create-load-balancer:
         #   cluster-name: nghia-deployment
         #   service-name: my-service
