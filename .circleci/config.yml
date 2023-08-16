@@ -74,7 +74,7 @@ jobs:
         - aws-eks/create-cluster:
             cluster-name: nghia-deployment
             node-type: t3.micro
-            nodes: 2
+            nodes: 1
             # with-load-balancer: true
         # - run:
         #     command: |
@@ -130,12 +130,12 @@ workflows:
       #     cluster-name: nghia-deployment
           # requires:
           #   - create-eks-cluster
-      - create-deployment:
-          cluster-name: nghia-deployment
+      # - create-deployment:
+      #     cluster-name: nghia-deployment
           # requires:
           #   - test-cluster
-      # - aws-eks/delete-cluster:
-      #     cluster-name: nghia-deployment
+      - aws-eks/delete-cluster:
+          cluster-name: nghia-deployment
           # requires:
           #   - test-cluster
 
