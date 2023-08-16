@@ -123,13 +123,13 @@ workflows:
   deployment:
     jobs:
       - build-check
-      - create-eks-cluster:
-          requires:
-            - build-check
+      # - create-eks-cluster:
+      #     requires:
+      #       - build-check
       - test-cluster:
           cluster-name: nghia-deployment
-          requires:
-            - create-eks-cluster
+          # requires:
+          #   - create-eks-cluster
       - create-deployment:
           cluster-name: nghia-deployment
           requires:
