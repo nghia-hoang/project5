@@ -6,6 +6,7 @@ jobs:
   build-docker:
     environment:
       IMAGE_NAME: nghiahv1/project5
+      TIME: $(($(date +%s%N)/1000000))
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -16,23 +17,16 @@ jobs:
           command: |
             pwd
             ls
-            docker build -t $IMAGE_NAME:latest .
-  publish-latest:
-    environment:
-      IMAGE_NAME: building-on-ci
-    docker:
-      - image: circleci/buildpack-deps:stretch
-    steps:
-      - checkout
-      - setup_remote_docker
+            docker build -t $IMAGE_NAME:date-$TIME .
       - run:
           name: Increment the Docker image version
-          command: echo "date" + (Get-Date).millisecond > .version 
+          command: echo "date-" + $TIME > .version 
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-            docker push $IMAGE_NAME:$(cat /home/circleci/project/.version)   
+            docker push $IMAGE_NAME:$(cat /home/circleci/project/.version)  
+ 
   build-check:
     docker:
       - image: 'python:3.7.3-stretch'
