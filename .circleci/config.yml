@@ -152,11 +152,11 @@ jobs:
 workflows:
   deployment:
     jobs:
-      # - build-docker
-      # - build-check:
-          # requires:
-          #     - build-docker
-      - build-check
+      - build-docker
+      - build-check:
+          requires:
+              - build-docker
+      # - build-check
       - create-eks-cluster:
           requires:
             - build-check
