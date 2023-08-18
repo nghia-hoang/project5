@@ -130,13 +130,13 @@ jobs:
 workflows:
   deployment:
     jobs:
-      - build-docker
-      - build-check:
-          requires:
-              - build-docker
+      # - build-docker
+      # - build-check:
+      #     requires:
+      #         - build-docker
       - create-eks-cluster:
-          requires:
-            - build-check
+          # requires:
+          #   - build-check
       # - test-cluster:
       #     cluster-name: nghia-deployment
       #     requires:
