@@ -131,52 +131,52 @@ jobs:
       #     service-name: my-service
       #     port: 80
       #     target-port: 8000
-      - kubernetes/create-or-update-resource:
-          resource-file-path: ~/repo/deployment.yaml
-          get-rollout-status: true
-          resource-name: deployment.apps/nghiahv-deployment
+      # - kubernetes/create-or-update-resource:
+      #     resource-file-path: ~/repo/deployment.yaml
+      #     get-rollout-status: true
+      #     resource-name: deployment.apps/nghiahv-deployment
       #     # command: rollout undo
       #     # revision: <revision-number>
       # - kubernetes/create-or-update-resource:
       #     resource-file-path: ~/repo/deployment.yaml
       - run:
           command: |
-            export TAGIMAGE=${CIRCLE_WORKFLOW_ID:0:7}
-            echo ${TAGIMAGE}
-            echo $TAGIMAGE
-            sed "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
-            cat ~/repo/deployment.yaml
-            kubectl exec nghiahv-deployment -- printenv
+            # export TAGIMAGE=${CIRCLE_WORKFLOW_ID:0:7}
+            # echo ${TAGIMAGE}
+            # echo $TAGIMAGE
+            # sed "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
+            # cat ~/repo/deployment.yaml
+            # kubectl exec nghiahv-deployment -- printenv
             # # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
-            kubectl get deployment
+            # kubectl get deployment
             # kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
-            # kubectl delete service nghiahv-deployment
+            kubectl delete service nghiahv-deployment
             # kubectl rollout status deploy nghiahv-deployment
-            kubectl get services
+            # kubectl get services
           name: Test 
 workflows:
   deployment:
     jobs:
-      - build-docker
-      - build-check:
-          requires:
-              - build-docker
+      # - build-docker
+      # - build-check:
+      #     requires:
+      #         - build-docker
       # - build-check
-      - create-eks-cluster:
-          requires:
-            - build-check
-      - test-cluster:
-          cluster-name: nghia-deployment
-          requires:
-            - create-eks-cluster
+      # - create-eks-cluster:
+      #     requires:
+      #       - build-check
+      # - test-cluster:
+      #     cluster-name: nghia-deployment
+      #     requires:
+      #       - create-eks-cluster
       - create-deployment:
           cluster-name: nghia-deployment
-          requires:
-            - test-cluster
-      # - aws-eks/delete-cluster:
-      #     cluster-name: nghia-deployment
           # requires:
           #   - test-cluster
+      - aws-eks/delete-cluster:
+          cluster-name: nghia-deployment
+          requires:
+            - create-deployment
 
   # create-cluster:
   #     docker:
