@@ -76,7 +76,7 @@ jobs:
         - run:
             command: |
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
-                aws-cli/create-cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
+                aws-eks/create-cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2
                 # aws create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
             name: Test cluster
   test-cluster:
