@@ -133,7 +133,7 @@ jobs:
       #     target-port: 8000
       - kubernetes/create-or-update-resource:
           resource-file-path: ~/repo/deployment.yaml
-          # get-rollout-status: true
+          get-rollout-status: true
           resource-name: deployment.apps/nghiahv-deployment
       #     # command: rollout undo
       #     # revision: <revision-number>
