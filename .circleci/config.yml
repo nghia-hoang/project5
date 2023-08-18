@@ -86,10 +86,10 @@ jobs:
                 pwd
                 if grep -q "eksctl-nghia-deployment-cluster" .clound
                 then
-                  echo "create cluster"
-                  eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2 
-                else  
                   echo "ignore create cluster"
+                else  
+                  echo "create cluster"
+                  eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2
                 fi
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
                 
