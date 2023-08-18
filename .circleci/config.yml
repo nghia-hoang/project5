@@ -85,9 +85,9 @@ jobs:
                 pwd
                 if grep -q "eksctl-nghia-deployment-cluster" .clound
                 then
-                  echo "create cluster"
-                else  
                   echo "ignore create cluster"
+                else  
+                  echo "create cluster"
                   eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2
                 fi
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
@@ -131,7 +131,7 @@ jobs:
       #     port: 80
       #     target-port: 8000
       - kubernetes/create-or-update-resource:
-          # get-rollout-status: true
+          get-rollout-status: true
           resource-file-path: ~/repo/deployment.yaml
           resource-name: nghia-deployment
           # command: rollout undo
