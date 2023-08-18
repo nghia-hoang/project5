@@ -132,9 +132,9 @@ workflows:
   deployment:
     jobs:
       - build-docker
-      - publish-latest:
-          requires:
-            - build-docker
+      # - publish-latest:
+      #     requires:
+      #       - build-docker
       # - build-check:
       #   requires:
       #       - publish-latest
