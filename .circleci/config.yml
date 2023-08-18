@@ -142,6 +142,7 @@ jobs:
       - run:
           command: |
             export TAGIMAGE=${CIRCLE_WORKFLOW_ID:0:7}
+            echo ${TAGIMAGE}
             cat ~/repo/deployment.yaml
             # # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
             kubectl get deployment
