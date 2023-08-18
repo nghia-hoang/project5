@@ -133,7 +133,7 @@ jobs:
       - kubernetes/create-or-update-resource:
           resource-file-path: ~/repo/deployment.yaml
           get-rollout-status: true
-          resource-name: deployment/nghiahv-deployment
+          resource-name: deployment.apps/nghiahv-deployment
           # command: rollout undo
           # revision: <revision-number>
       - run:
