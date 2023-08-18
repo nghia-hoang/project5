@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nghiahv1-container
-        image: nghiahv1/microproject:$(cat .version)
+        image: nghiahv1/project5:${CIRCLE_WORKFLOW_ID:0:7}
         imagePullPolicy: Always
         ports:
         - containerPort: 80

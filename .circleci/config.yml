@@ -17,7 +17,8 @@ jobs:
           command: |
             pwd
             ls
-            echo $(($(date +%s%N)/1000000)) >> .version 
+            # echo $(($(date +%s%N)/1000000)) >> .version 
+            echo ${CIRCLE_WORKFLOW_ID:0:7} >> .version 
             # echo "date-" + $TIME > .version 
             docker build -t $IMAGE_NAME:$(cat /home/circleci/project/.version) .
       - run:
@@ -78,7 +79,7 @@ jobs:
                 sudo mv /tmp/eksctl /usr/local/bin
                 eksctl version
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
-                eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2 --skip-if-exists
+                eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2
                 # aws create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
             name: Test cluster
   test-cluster:
@@ -134,21 +135,21 @@ jobs:
 workflows:
   deployment:
     jobs:
-      # - build-docker
-      # - build-check:
-      #     requires:
-      #         - build-docker
-      - create-eks-cluster
-          # requires:
-          #   - build-check
-      # - test-cluster:
-      #     cluster-name: nghia-deployment
-      #     requires:
-      #       - create-eks-cluster
-      # - create-deployment:
-      #     cluster-name: nghia-deployment
-      #     requires:
-      #       - test-cluster
+      - build-docker
+      - build-check:
+          requires:
+              - build-docker
+      - create-eks-cluster:
+          requires:
+            - build-check
+      - test-cluster:
+          cluster-name: nghia-deployment
+          requires:
+            - create-eks-cluster
+      - create-deployment:
+          cluster-name: nghia-deployment
+          requires:
+            - test-cluster
       # - aws-eks/delete-cluster:
       #     cluster-name: nghia-deployment
           # requires:
