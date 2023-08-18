@@ -106,7 +106,7 @@ jobs:
     parameters:
         cluster-name:
             description: |
-                Name of the EKS cluster
+              Name of the EKS cluster
             type: string
     steps:
       - checkout
@@ -122,8 +122,8 @@ jobs:
           # get-rollout-status: true
           resource-file-path: ~/repo/deployment.yaml
           resource-name: nghia-deployment
-          command: rollout undo
-          revision: <revision-number>
+          # command: rollout undo
+          # revision: <revision-number>
       - run:
           command: |
             # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
