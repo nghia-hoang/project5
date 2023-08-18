@@ -82,9 +82,9 @@ jobs:
                 curl --silent --location https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip > awscli.zip
                 unzip awscli.zip
                 sudo ./aws/install
-                aws cloudformation describe-stacks --stack-name eksctl-nghia-deployment-cluster >> .clound
+                aws cloudformation get list --region us-east-1 --max-items 10 >> .clound
                 pwd
-                if grep -q "eksctl-nghia-deployment-cluster does not exist" .clound
+                if grep -q "eksctl-nghia-deployment-cluster" .clound
                 then
                   echo "create cluster"
                   eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2 
