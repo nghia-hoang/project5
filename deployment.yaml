@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: nghiahv1-container
-        # image: nghiahv1/project5:${CIRCLE_WORKFLOW_ID:0:7}
-        image: nghiahv1/microproject:latest
+        image: nghiahv1/project5:${CIRCLE_WORKFLOW_ID:0:7}
+        # image: nghiahv1/microproject:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
