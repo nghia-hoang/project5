@@ -130,12 +130,14 @@ jobs:
       #     service-name: my-service
       #     port: 80
       #     target-port: 8000
+      # - kubernetes/create-or-update-resource:
+      #     resource-file-path: ~/repo/deployment.yaml
+      #     get-rollout-status: true
+      #     resource-name: deployment.apps/nghiahv-deployment
+      #     # command: rollout undo
+      #     # revision: <revision-number>
       - kubernetes/create-or-update-resource:
           resource-file-path: ~/repo/deployment.yaml
-          get-rollout-status: true
-          resource-name: deployment.apps/nghiahv-deployment
-          # command: rollout undo
-          # revision: <revision-number>
       - run:
           command: |
             cat ~/repo/deployment.yaml
@@ -143,7 +145,7 @@ jobs:
             kubectl get deployment
             # kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
             # kubectl delete service nghiahv-deployment
-            kubectl rollout status deploy nghiahv-deployment
+            # kubectl rollout status deploy nghiahv-deployment
             kubectl get services
           name: Test 
 workflows:
