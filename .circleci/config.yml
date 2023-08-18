@@ -81,10 +81,17 @@ jobs:
                 curl --silent --location https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip > awscli.zip
                 unzip awscli.zip
                 sudo ./aws/install
-                aws cloudformation describe-stacks --stack-name eksctl-nghia-deployment-cluster
-                
+                aws cloudformation describe-stacks --stack-name eksctl-nghia-deployment-cluster >> .clound
+                pwd
+                if grep -q "eksctl-nghia-deployment-cluster" .clound
+                then
+                  echo "create cluster"
+                else  
+                  echo "ignore create cluster"
+                  eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2
+                fi
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
-                # eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2
+                
                 # aws create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
             name: Test cluster
   test-cluster:
@@ -134,7 +141,7 @@ jobs:
             # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
             kubectl get deployment
             kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
-            kubectl delete service nghiahv-deployment
+            # kubectl delete service nghiahv-deployment
             kubectl get services
           name: Test 
 workflows:
