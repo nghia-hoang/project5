@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: nghiahv1-container
-        image: nghiahv1/project5:TAGIMAGE
+        image: nghiahv1/project5:$(TAGIMAGE)
         # image: nghiahv1/project5:f6740d1
         # image: nghiahv1/microproject:latest
         imagePullPolicy: Always
