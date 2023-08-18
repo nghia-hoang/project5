@@ -31,7 +31,7 @@ jobs:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-            docker push $IMAGE_NAME:$(cat .version)   
+            docker push $IMAGE_NAME:$(cat /home/circleci/project/.version)   
   build-check:
     docker:
       - image: 'python:3.7.3-stretch'
