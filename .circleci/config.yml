@@ -31,6 +31,8 @@ jobs:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+            pwd
+            ls
             docker push $IMAGE_NAME:$(cat /home/circleci/project/.version)   
   build-check:
     docker:
