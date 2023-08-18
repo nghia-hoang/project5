@@ -17,9 +17,6 @@ jobs:
             pwd
             ls
             docker build -t $IMAGE_NAME:latest .
-      - run:
-          name: Increment the Docker image version
-          command: echo "latest" > .version 
   publish-latest:
     environment:
       IMAGE_NAME: building-on-ci
@@ -28,6 +25,9 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - run:
+          name: Increment the Docker image version
+          command: echo "date" + (Get-Date).millisecond > .version 
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
