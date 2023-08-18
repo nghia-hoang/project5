@@ -61,21 +61,22 @@ jobs:
     steps:
         - kubernetes/install:
             kubectl-version: v1.22.0
-        - aws-eks/create-cluster:
-            cluster-name: nghia-deployment
-            skip-if-exists: true
-            node-type: t3.micro
-            nodes: 2
+        # - aws-eks/create-cluster:
+        #     cluster-name: nghia-deployment
+        #     skip-if-exists: true
+        #     node-type: t3.micro
+        #     nodes: 2
         # - aws-eks/create-load-balancer:
         #   cluster-name: nghia-deployment
         #   service-name: my-service
         #   port: 80
         #   target-port: 80
             #  with-loadcer: true
-        # - run:
-        #     command: |
-        #         kubectl get services
-        #     name: Test cluster
+        - run:
+            command: |
+                eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
+                # aws eks create-cluster --name nghia-deployment --skip-if-exists
+            name: Test cluster
   test-cluster:
     docker:
       - image: cimg/python:3.10
