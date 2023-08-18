@@ -74,6 +74,7 @@ jobs:
         #   target-port: 80
             #  with-loadcer: true
         - run:
+            ignore-failure: true
             command: |
                 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
                 sudo mv /tmp/eksctl /usr/local/bin
@@ -83,12 +84,12 @@ jobs:
                 sudo ./aws/install
                 aws cloudformation describe-stacks --stack-name eksctl-nghia-deployment-cluster >> .clound
                 pwd
-                if grep -q "eksctl-nghia-deployment-cluster" .clound
+                if grep -q "eksctl-nghia-deployment-cluster does not exist" .clound
                 then
-                  echo "ignore create cluster"
-                else  
                   echo "create cluster"
-                  eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2
+                  eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2 
+                else  
+                  echo "ignore create cluster"
                 fi
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
                 
