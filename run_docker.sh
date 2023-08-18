@@ -10,4 +10,4 @@ docker build -t nghiahv1/microproject .
 docker image list
 # Step 3: 
 # Run flask app
-docker run -p 8000:80 microproject
+docker run -p 80:80 microproject

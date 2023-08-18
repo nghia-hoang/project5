@@ -4,6 +4,7 @@ metadata:
   name: nghiahv-deployment
 spec:
   replicas: 2
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: nghiahv1-app
@@ -14,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nghiahv1-container
-        image: nghiahv1/microproject:latest
+        image: nghiahv1/microproject:$(cat .version)
         imagePullPolicy: Always
         ports:
         - containerPort: 80
