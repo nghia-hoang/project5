@@ -141,7 +141,7 @@ jobs:
       #     resource-file-path: ~/repo/deployment.yaml
       - run:
           command: |
-            # cat ~/repo/deployment.yaml
+            cat ~/repo/deployment.yaml
             # # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
             kubectl get deployment
             # kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
