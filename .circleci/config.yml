@@ -3,8 +3,6 @@ orbs:
   aws-eks: circleci/aws-eks@2.2.0
   kubernetes: circleci/kubernetes@1.3
   aws-cli: circleci/aws-cli@1.0.0
-  install-eksctl: circleci/install-eksctl@1.0.0
-  # aws-eks: openbean/aws-eks@2.0.0
 jobs:
   build-docker:
     environment:
@@ -66,7 +64,6 @@ jobs:
             kubectl-version: v1.22.0
         # - aws-eks/create-cluster:
         #     cluster-name: nghia-deployment
-        #     skip-if-exists: true
         #     node-type: t3.micro
         #     nodes: 2
         # - aws-eks/create-load-balancer:
@@ -77,9 +74,8 @@ jobs:
             #  with-loadcer: true
         - run:
             command: |
-                install-eksctl/install
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
-                eksctl create cluster --name my-cluster --region us-east-1 --node-type t3.small --nodes 2 --skip-if-exists
+                kubectl create cluster --name my-cluster --region us-east-1 --node-type t3.small --nodes 2 --skip-if-exists
                 # aws create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
             name: Test cluster
   test-cluster:
