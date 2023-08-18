@@ -60,8 +60,8 @@ jobs:
     docker:
       - image: cimg/python:3.10
     steps:
-        - kubernetes/install:
-            kubectl-version: v1.22.0
+        # - kubernetes/install:
+        #     kubectl-version: v1.22.0
         # - aws-eks/create-cluster:
         #     cluster-name: nghia-deployment
         #     skip-if-exists: true
@@ -76,7 +76,8 @@ jobs:
         - run:
             command: |
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
-                aws create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
+                aws-cli/create-cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
+                # aws create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
             name: Test cluster
   test-cluster:
     docker:
