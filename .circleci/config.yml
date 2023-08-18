@@ -62,7 +62,7 @@ jobs:
     steps:
         - kubernetes/install:
             kubectl-version: v1.22.0
-        - install-eksctl
+        - aws-eks/install-eksctl
         # - aws-eks/create-cluster:
         #     cluster-name: nghia-deployment
         #     skip-if-exists: true
