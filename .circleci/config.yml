@@ -82,7 +82,7 @@ jobs:
                 curl --silent --location https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip > awscli.zip
                 unzip awscli.zip
                 sudo ./aws/install
-                aws cloudformation get list --region us-east-1 --max-items 10 >> .clound
+                aws cloudformation list-stacks --stack-status-filter CREATE_COMPLETE >> .clound
                 pwd
                 if grep -q "eksctl-nghia-deployment-cluster" .clound
                 then
