@@ -133,9 +133,9 @@ workflows:
       - build-check:
           requires:
               - build-docker
-      - create-eks-cluster:
-          requires:
-            - build-check
+      # - create-eks-cluster:
+      #     requires:
+      #       - build-check
       # - test-cluster:
       #     cluster-name: nghia-deployment
       #     requires:
