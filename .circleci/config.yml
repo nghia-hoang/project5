@@ -77,9 +77,11 @@ jobs:
             command: |
                 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
                 sudo mv /tmp/eksctl /usr/local/bin
-                eksctl version
+                #  echo ${CIRCLE_WORKFLOW_ID:0:7} >> .version 
+                aws cloudformation describe-stacks --stack-name eksctl-nghia-deployment-cluster
+                
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
-                eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2
+                # eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2
                 # aws create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
             name: Test cluster
   test-cluster:
