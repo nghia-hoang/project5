@@ -144,7 +144,7 @@ jobs:
             # cat ~/repo/deployment.yaml
             # # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
             kubectl get deployment
-            kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
+            # kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
             # kubectl delete service nghiahv-deployment
             # kubectl rollout status deploy nghiahv-deployment
             kubectl get services
@@ -152,10 +152,11 @@ jobs:
 workflows:
   deployment:
     jobs:
-      - build-docker
-      - build-check:
-          requires:
-              - build-docker
+      # - build-docker
+      # - build-check:
+          # requires:
+          #     - build-docker
+      - build-check
       - create-eks-cluster:
           requires:
             - build-check
