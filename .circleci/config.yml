@@ -57,7 +57,8 @@ jobs:
             make lint
   create-eks-cluster:
     docker:
-      - image: cimg/python:3.10
+      # - image: cimg/python:3.10
+      - image: amazon/aws-cli
     steps:
         - kubernetes/install:
             kubectl-version: v1.22.0
