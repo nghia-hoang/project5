@@ -131,13 +131,14 @@ jobs:
       #     port: 80
       #     target-port: 8000
       - kubernetes/create-or-update-resource:
-          # get-rollout-status: true
+          get-rollout-status: true
           resource-file-path: ~/repo/deployment.yaml
-          # resource-name: nghiahv-deployment
+          resource-name: nghiahv-deployment
           # command: rollout undo
           # revision: <revision-number>
       - run:
           command: |
+            cat ~/repo/deployment.yaml
             # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
             kubectl get deployment
             # kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
