@@ -133,7 +133,7 @@ jobs:
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: ~/repo/deployment.yaml
-          resource-name: nghiahv1/project5
+          resource-name: repo
           # command: rollout undo
           # revision: <revision-number>
       - run:
