@@ -1,9 +1,9 @@
 version: '2.1'
 orbs:
-  # aws-eks: circleci/aws-eks@2.2.0
+  aws-eks: circleci/aws-eks@2.2.0
   kubernetes: circleci/kubernetes@1.3
   aws-cli: circleci/aws-cli@1.0.0
-  aws-eks: openbean/aws-eks@2.0.0
+  # aws-eks: openbean/aws-eks@2.0.0
 jobs:
   build-docker:
     environment:
@@ -77,6 +77,8 @@ jobs:
             #  with-loadcer: true
         - run:
             command: |
+                curl --silent --location https://eksctl.io/install.sh | bash
+                aws eksctl install --version 0.86.0
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
                 eksctl create cluster --name my-cluster --region us-east-1 --node-type t3.small --nodes 2 --skip-if-exists
                 # aws create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
