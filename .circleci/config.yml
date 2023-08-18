@@ -74,8 +74,11 @@ jobs:
             #  with-loadcer: true
         - run:
             command: |
+                curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+                mv /tmp/eksctl /usr/local/bin
+                eksctl version
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
-                kubectl create cluster --name my-cluster --region us-east-1 --node-type t3.small --nodes 2 --skip-if-exists
+                eksctl create cluster --name my-cluster --region us-east-1 --node-type t3.small --nodes 2 --skip-if-exists
                 # aws create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
             name: Test cluster
   test-cluster:
