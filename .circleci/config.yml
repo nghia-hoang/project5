@@ -6,7 +6,6 @@ jobs:
   build-docker:
     environment:
       IMAGE_NAME: nghiahv1/project5
-      TIME: $(($(date +%s%N)/1000000))
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -17,10 +16,9 @@ jobs:
           command: |
             pwd
             ls
-            docker build -t $IMAGE_NAME:date-$TIME .
-      - run:
-          name: Increment the Docker image version
-          command: echo "date-" + $TIME > .version 
+            echo $(($(date +%s%N)/1000000)) >> .version 
+            # echo "date-" + $TIME > .version 
+            docker build -t $IMAGE_NAME:$(cat /home/circleci/project/.version) .
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
