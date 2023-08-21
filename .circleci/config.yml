@@ -92,7 +92,6 @@ jobs:
                   eksctl create cluster --name nghia-deployment --region us-east-1 --node-type t3.small --nodes 2
                 fi
                 # eksctl create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
-                
                 # aws create cluster --name nghia-deployment --skip-if-exists --region us-east-1 --node-type t3.small --nodes 2
             name: Test cluster
   test-cluster:
@@ -141,19 +140,28 @@ jobs:
       #     resource-file-path: ~/repo/deployment.yaml
       - run:
           command: |
-            # export TAGIMAGE=${CIRCLE_WORKFLOW_ID:0:7}
+            export TAGIMAGE=${CIRCLE_WORKFLOW_ID:0:7}
             # echo ${TAGIMAGE}
             # echo $TAGIMAGE
-            # sed "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
+            sed "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
             # cat ~/repo/deployment.yaml
-            # kubectl exec nghiahv-deployment -- printenv
+            kubectl kubectl apply -f ~/repo/deployment.yaml
+            kubectl rollout status deployment/nghiahv-deployment
+            kubectl exec nghiahv-deployment -- printenv
             # # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
             # kubectl get deployment
-            # kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
-            kubectl delete service nghiahv-deployment
+            kubectl get services >> .services
+            if grep -q "eksctl-nghia-deployment-cluster" .services
+            then
+              echo "ignore create services"
+            else  
+              echo "create services"
+              kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
+            fi
+            # kubectl delete service nghiahv-deployment
             # kubectl rollout status deploy nghiahv-deployment
-            # kubectl get services
-          name: Test 
+            kubectl get services
+          name: deploy EKS 
 workflows:
   deployment:
     jobs:
