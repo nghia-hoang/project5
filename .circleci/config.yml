@@ -143,137 +143,48 @@ jobs:
             export TAGIMAGE=${CIRCLE_WORKFLOW_ID:0:7}
             # echo ${TAGIMAGE}
             # echo $TAGIMAGE
-            sed "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
-            cat ~/repo/deployment.yaml
-            kubectl apply -f ~/repo/deployment.yaml
+            # sed "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
+            # cat ~/repo/deployment.yaml
+            # kubectl apply -f ~/repo/deployment.yaml
             # kubectl rollout restart
             # kubectl get pods
             # kubectl rollout status deployment.apps/nghiahv-deployment
             # kubectl exec nghiahv-deployment -- printenv
             # # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
             # kubectl get deployment
-            kubectl get services >> .services
-            if grep -q "eksctl-nghia-deployment-cluster" .services
-            then
-              echo "ignore create services"
-            else  
-              echo "create services"
-              kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
-            fi
-            # kubectl delete service nghiahv-deployment
+
+            # kubectl get services >> .services
+            # if grep -q "eksctl-nghia-deployment-cluster" .services
+            # then
+            #   echo "ignore create services"
+            # else  
+            #   echo "create services"
+            #   kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
+            # fi
+            kubectl delete service nghiahv-deployment
             # kubectl rollout status deploy nghiahv-deployment
-            kubectl get services
+            # kubectl get services
           name: deploy EKS 
 workflows:
   deployment:
     jobs:
-      - build-docker
-      - build-check:
-          requires:
-              - build-docker
-      # - build-check
-      - create-eks-cluster:
-          requires:
-            - build-check
-      - test-cluster:
-          cluster-name: nghia-deployment
-          requires:
-            - create-eks-cluster
-      - create-deployment:
-          cluster-name: nghia-deployment
-          requires:
-            - test-cluster
-      # - aws-eks/delete-cluster:
+      # - build-docker
+      # - build-check:
+      #     requires:
+      #         - build-docker
+      # # - build-check
+      # - create-eks-cluster:
+      #     requires:
+      #       - build-check
+      # - test-cluster:
       #     cluster-name: nghia-deployment
       #     requires:
+      #       - create-eks-cluster
+      - create-deployment:
+          cluster-name: nghia-deployment
+          # requires:
+          #   - test-cluster
+      - aws-eks/delete-cluster:
+          cluster-name: nghia-deployment
+      #     requires:
       #       - create-deployment
-
-  # create-cluster:
-  #     docker:
-  #       - image: circleci/aws-eks@1.0.0
-  #     steps:
-  #       - checkout:
-  #           path: .
-  #       - run:
-  #           name: Create cluster
-  #           command: |
-  #             eksctl create cluster --name nghiahv1-cluster --node-type t3.small --nodes 2
-
-  # create-eks-cluster:
-  #     docker:
-  #         - image: cimg/python:3.10
-  #     steps:
-  #         - kubernetes/install:
-  #             kubectl-version: v1.22.0
-  #         - aws-eks/create-cluster:
-  #             cluster-name: eks-demo-deployment
-  #             node-type: t3.micro
-  #             nodes: 2
-  #             with-load-balancer: true
-  #         - run:
-  #             command: |
-  #                 kubectl get services
-  #             name: Test cluster
-
-  # create-k8s-deployment:
-  #     description: |
-  #         Create a kubernetes deployment.
-  #     usage:
-  #         version: "2.1"
-  #         orbs:
-  #             aws-eks: circleci/aws-eks@<<pipeline.parameters.dev-orb-version>>
-  #             kubernetes: circleci/kubernetes@1.3
-  #         jobs:
-  #             create-deployment:
-  #                 docker:
-  #                     - image: cimg/python:3.10
-  #                 parameters:
-  #                     cluster-name:
-  #                         description: |
-  #                             Name of the EKS cluster
-  #                         type: string
-  #                 steps:
-  #                     - checkout
-  #                     - aws-eks/update-kubeconfig-with-authenticator:
-  #                         cluster-name: << parameters.cluster-name >>
-  #                         install-kubectl: true
-  #                     - kubernetes/create-or-update-resource:
-  #                         get-rollout-status: true
-  #                         resource-file-path: tests/nginx-deployment/deployment.yaml
-  #                         resource-name: deployment/nginx-deployment
-  #         workflows:
-  #             deployment:
-  #                 jobs:
-  #                     - aws-eks/create-cluster:
-  #                         cluster-name: eks-demo-deployment
-  #                     - create-deployment:
-  #                         cluster-name: eks-demo-deployment
-  #                         requires:
-  #                             - aws-eks/create-cluster
-  #                     - aws-eks/update-container-image:
-  #                         cluster-name: eks-demo-deployment
-  #                         container-image-updates: nginx=nginx:1.9.1
-  #                         post-steps:
-  #                             - kubernetes/delete-resource:
-  #                                 resource-names: nginx-deployment
-  #                                 resource-types: deployment
-  #                                 wait: true
-  #                         requires:
-  #                             - create-deployment
-  #                         resource-name: deployment/nginx-deployment
-  #                     - aws-eks/delete-cluster:
-  #                         cluster-name: eks-demo-deployment
-  #                         requires:
-  #                             - aws-eks/update-container-image
-
-
-# workflows:
-#   deployment:
-#     jobs:
-#       - build-check
-#       - create-eks-cluster:
-#           requires: [build-check]
-#       # - deploy-app:
-#       #     requires: [my-eks-cluster]
-#       # - create-my-load-balancer:
-#       #     docker: [amazon/eks-cli:latest, my-custom-image:latest]
