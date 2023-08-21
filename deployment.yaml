@@ -6,11 +6,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nghiahv1-app
+      app: nghiahv-deployment
   template:
     metadata:
       labels:
-        app: nghiahv1-app
+        app: nghiahv-deployment
     spec:
       containers:
       - name: nghiahv1-container
