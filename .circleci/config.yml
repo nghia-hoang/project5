@@ -169,7 +169,7 @@ workflows:
       - build-check:
           requires:
               - build-docker
-      - build-check
+      # - build-check
       - create-eks-cluster:
           requires:
             - build-check
