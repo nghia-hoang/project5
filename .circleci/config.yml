@@ -19,6 +19,7 @@ jobs:
             ls
             echo ver- >> .version 
             echo ${CIRCLE_WORKFLOW_ID:0:7} >> .version 
+            cat .version
             # echo "date-" + $TIME > .version 
             docker build -t $IMAGE_NAME:$(cat /home/circleci/project/.version) .
       - run:
