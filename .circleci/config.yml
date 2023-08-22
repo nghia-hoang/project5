@@ -162,7 +162,7 @@ jobs:
               kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
             fi
             # kubectl delete service nghiahv-deployment
-            kubectl rollout status deploy deployment.apps/nghiahv-deployment
+            # kubectl rollout status deploy deployment.apps/nghiahv-deployment
             # kubectl get services
           name: deploy EKS 
 workflows:
