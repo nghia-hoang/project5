@@ -150,7 +150,7 @@ jobs:
             # kubectl rollout restart
             # kubectl get pods
             # kubectl rollout status deployment.apps/nghiahv-deployment
-            # kubectl exec nghiahv-deployment -- printenv
+            kubectl exec nghiahv-deployment -- printenv
             # # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
             # kubectl get deployment
 
