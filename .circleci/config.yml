@@ -184,8 +184,8 @@ workflows:
       #       - create-eks-cluster
       - create-deployment:
           cluster-name: nghia-deployment
-          requires:
-            - test-cluster
+          # requires:
+          #   - test-cluster
       - aws-eks/delete-cluster:
           cluster-name: nghia-deployment
       #     requires:
