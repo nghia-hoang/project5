@@ -141,11 +141,11 @@ jobs:
       - run:
           command: |
             export TAGIMAGE=${CIRCLE_WORKFLOW_ID:0:7}
-            # echo ${TAGIMAGE}
+            echo ${TAGIMAGE}
             # echo $TAGIMAGE
-            # sed "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
+            sed "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
             # cat ~/repo/deployment.yaml
-            # kubectl apply -f ~/repo/deployment.yaml
+            kubectl apply -f ~/repo/deployment.yaml
             # kubectl rollout restart
             # kubectl get pods
             # kubectl rollout status deployment.apps/nghiahv-deployment
@@ -153,38 +153,38 @@ jobs:
             # # kubectl create service my-service --type=LoadBalancer --port=80 --selector app=my-deployment
             # kubectl get deployment
 
-            # kubectl get services >> .services
-            # if grep -q "eksctl-nghia-deployment-cluster" .services
-            # then
-            #   echo "ignore create services"
-            # else  
-            #   echo "create services"
-            #   kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
-            # fi
-            kubectl delete service nghiahv-deployment
-            # kubectl rollout status deploy nghiahv-deployment
+            kubectl get services >> .services
+            if grep -q "eksctl-nghia-deployment-cluster" .services
+            then
+              echo "ignore create services"
+            else  
+              echo "create services"
+              kubectl expose deployment nghiahv-deployment --type=LoadBalancer --port=80
+            fi
+            # kubectl delete service nghiahv-deployment
+            kubectl rollout status deploy deployment.apps/nghiahv-deployment
             # kubectl get services
           name: deploy EKS 
 workflows:
   deployment:
     jobs:
-      # - build-docker
-      # - build-check:
-      #     requires:
-      #         - build-docker
+      - build-docker
+      - build-check:
+          requires:
+              - build-docker
       # # - build-check
-      # - create-eks-cluster:
-      #     requires:
-      #       - build-check
-      # - test-cluster:
-      #     cluster-name: nghia-deployment
-      #     requires:
-      #       - create-eks-cluster
+      - create-eks-cluster:
+          requires:
+            - build-check
+      - test-cluster:
+          cluster-name: nghia-deployment
+          requires:
+            - create-eks-cluster
       - create-deployment:
           cluster-name: nghia-deployment
-          # requires:
-          #   - test-cluster
-      - aws-eks/delete-cluster:
-          cluster-name: nghia-deployment
+          requires:
+            - test-cluster
+      # - aws-eks/delete-cluster:
+      #     cluster-name: nghia-deployment
       #     requires:
       #       - create-deployment
