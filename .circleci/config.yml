@@ -154,7 +154,7 @@ jobs:
             # kubectl get deployment
 
             kubectl get services >> .services
-            if grep -q "eksctl-nghia-deployment-cluster" .services
+            if grep -q "nghiahv-deployment" .services
             then
               echo "ignore create services"
             else  
