@@ -147,7 +147,7 @@ jobs:
             sed "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
             # cat ~/repo/deployment.yaml
             kubectl exec nghiahv-deployment -- printenv
-            kubectl apply -f ~/repo/deployment.yaml
+            # kubectl apply -f ~/repo/deployment.yaml
             # kubectl rollout restart
             kubectl get deployment
             # kubectl rollout status deployment.apps/nghiahv-deployment
