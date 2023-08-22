@@ -144,7 +144,7 @@ jobs:
             export TAGIMAGE=${CIRCLE_WORKFLOW_ID:0:7}
             echo ${TAGIMAGE}
             # echo $TAGIMAGE
-            sed - "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
+            sed -i  "s/TAGIMAGE/$TAGIMAGE/g" ~/repo/deployment.yaml
             # cat ~/repo/deployment.yaml
             # kubectl exec deployment.apps/nghiahv-deployment -- printenv
             kubectl apply -f ~/repo/deployment.yaml
