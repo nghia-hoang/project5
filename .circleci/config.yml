@@ -153,6 +153,7 @@ jobs:
             # kubectl delete service nghiahv-deployment
             # kubectl rollout status deploy deployment.apps/nghiahv-deployment
             kubectl get services
+            kubectl get pods
           name: deploy EKS 
 workflows:
   deployment:
